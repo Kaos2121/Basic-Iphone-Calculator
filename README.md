@@ -22,12 +22,6 @@ To use the calculator, simply click on the number and operation buttons. The dis
 2. Open the `index.html` file in any modern web browser.
 3. Start performing calculations!
 
-## File Structure
-
-- `index.html`: The main HTML file that contains the structure of the calculator.
-- `style.css`: The CSS file that styles the calculator, providing the dark theme and responsive layout.
-- `script.js`: The JavaScript file that handles the calculator's functionality and operations.
-
 ## License
 
 This project is open-source and available under the [MIT License](https://opensource.org/licenses/MIT).
