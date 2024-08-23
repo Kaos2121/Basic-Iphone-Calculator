@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iPhone Calculator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #121212;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .title {
+            font-size: 2rem;
+            color: #ff9500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .calculator-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .calculator-wrapper {
+            background: #1e1e1e;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+            transition: all 0.5s ease;
+            max-width: 400px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .calculator {
+            background-color: #333;
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+            transition: all 0.5s ease;
+            width: 320px;
+            margin: 0 auto;
+        }
+
+        .display {
+            background-color: #000;
+            color: #ff9500;
+            text-align: right;
+            padding: 20px;
+            font-size: 2.5rem;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 -5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .button {
+            width: 23%;
+            padding: 20px;
+            margin: 5px;
+            font-size: 1.2rem;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            background-color: #555;
+            box-shadow: 0 5px rgba(0, 0, 0, 0.4);
+            cursor: pointer;
+            outline: none;
+            transition: background-color 0.2s, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .button:active {
+            box-shadow: none;
+            transform: translateY(4px);
+        }
+
+        .button-orange {
+            background-color: #ff9500;
+        }
+
+        .button-orange:hover {
+            background-color: #e08400;
+            box-shadow: 0 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .button-light-gray {
+            background-color: #a5a5a5;
+            color: #000;
+        }
+
+        .button-light-gray:hover {
+            background-color: #8e8e8e;
+            box-shadow: 0 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .button-dark-gray {
+            background-color: #444;
+        }
+
+        .button-dark-gray:hover {
+            background-color: #555;
+            box-shadow: 0 8px rgba(0, 0, 0, 0.4);
+        }
+
+        .button.double {
+            width: 48%;
+        }
+
+        .row {
+            display: flex;
+            justify-content: space-between;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .watermark {
+            margin-top: 20px;
+            font-weight: bold;
+            color: #ff9500;
+            text-align: center;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <strong><div class="title">iPhone Calculator</div></strong>
+    <div class="calculator-container">
+        <div class="calculator-wrapper">
+            <div class="calculator">
+                <div id="display" class="display">0</div>
+                <div class="row">
+                    <button class="button button-light-gray" onclick="clearDisplay()">AC</button>
+                    <button class="button button-light-gray" onclick="inputOperation('(-)')">+/-</button>
+                    <button class="button button-light-gray" onclick="inputOperation('%')">%</button>
+                    <button class="button button-orange" onclick="inputOperation('/')">÷</button>
+                </div>
+                <div class="row">
+                    <button class="button button-dark-gray" onclick="inputNumber(7)">7</button>
+                    <button class="button button-dark-gray" onclick="inputNumber(8)">8</button>
+                    <button class="button button-dark-gray" onclick="inputNumber(9)">9</button>
+                    <button class="button button-orange" onclick="inputOperation('*')">×</button>
+                </div>
+                <div class="row">
+                    <button class="button button-dark-gray" onclick="inputNumber(4)">4</button>
+                    <button class="button button-dark-gray" onclick="inputNumber(5)">5</button>
+                    <button class="button button-dark-gray" onclick="inputNumber(6)">6</button>
+                    <button class="button button-orange" onclick="inputOperation('-')">−</button>
+                </div>
+                <div class="row">
+                    <button class="button button-dark-gray" onclick="inputNumber(1)">1</button>
+                    <button class="button button-dark-gray" onclick="inputNumber(2)">2</button>
+                    <button class="button button-dark-gray" onclick="inputNumber(3)">3</button>
+                    <button class="button button-orange" onclick="inputOperation('+')">+</button>
+                </div>
+                <div class="row">
+                    <button class="button button-dark-gray double" onclick="inputNumber(0)">0</button>
+                    <button class="button button-dark-gray" onclick="inputNumber('.')">.</button>
+                    <button class="button button-orange" onclick="calculateResult()">=</button>
+                </div>
+            </div>
+        </div>
+        <div class="watermark">
+            Made by Matt Lett, (Github.com/Kaos2121)
+        </div>
+    </div>
+
+    <script>
+        let currentOperation = '';
+        let isNewNumber = true;
+
+        function inputNumber(num) {
+            let display = document.getElementById('display');
+            if (isNewNumber) {
+                display.innerText = num;
+                isNewNumber = false;
+            } else {
+                display.innerText += num;
+            }
+            currentOperation += num;
+        }
+
+        function inputOperation(op) {
+            let display = document.getElementById('display');
+            if (isNewNumber && op !== '(-)') {
+                return;
+            }
+
+            if (op === '(-)') {
+                display.innerText = `-${display.innerText}`;
+                currentOperation = `-${currentOperation}`;
+            } else {
+                currentOperation += op;
+            }
+
+            isNewNumber = true;
+        }
+
+        function clearDisplay() {
+            let display = document.getElementById('display');
+            display.innerText = '0';
+            currentOperation = '';
+            isNewNumber = true;
+        }
+
+        function calculateResult() {
+            let display = document.getElementById('display');
+            try {
+                let result = eval(currentOperation);
+                display.innerText = result;
+                currentOperation = result.toString();
+                isNewNumber = true;
+            } catch {
+                display.innerText = 'Error';
+                isNewNumber = true;
+            }
+        }
+    </script>
+</body>
+</html>
